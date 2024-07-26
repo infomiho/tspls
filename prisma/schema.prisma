@@ -1,0 +1,24 @@
+model Link {
+  id          String @id @default(cuid())
+  shortId     String @unique
+  destination String
+  description String @default("")
+  shadowUserId String?
+  createdAt   DateTime @default(now())
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+generator zod {
+  createRelationValuesTypes = true
+  output                    = "../app/generated/zod"
+  provider                  = "zod-prisma-types"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
