@@ -26,7 +26,7 @@ export default createRoute(async (c) => {
       <div class="bg-white md:shadow p-4">
         <div class="flex items-center mb-4">
           <h1 class="flex-1 font-bold text-xl">
-            We have {links.length} {links.length == 1 ? "link" : "links"}
+            Typescript Playground Link Shortener
           </h1>
         </div>
 

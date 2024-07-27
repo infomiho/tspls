@@ -19,5 +19,5 @@ export default createRoute(zValidator("param", ShortIdRouteSchema), async (c) =>
     return c.redirect("/create")
   }
 
-  return c.redirect(link.destination);
+  return c.redirect(link.destination, 301);
 });
