@@ -121,7 +121,7 @@ export const POST = createRoute(
     const url = new URL(data.destination);
 
     if (
-      url.hostname !== "typescriptlang.org" ||
+      url.hostname !== "www.typescriptlang.org" ||
       !url.pathname.startsWith("/play")
     ) {
       return c.redirect("/create");
