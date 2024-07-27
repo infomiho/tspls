@@ -15,7 +15,8 @@ export default createRoute(zValidator("param", ShortIdRouteSchema), async (c) =>
   });
 
   if (!link) {
-    return c.redirect("/")
+    // TODO: decide if this is the best
+    return c.redirect("/create")
   }
 
   return c.redirect(link.destination);

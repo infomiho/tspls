@@ -31,30 +31,33 @@ export default createRoute(async (c) => {
 
         <ul>
           {links.map((link) => (
-            <li>
-              <form method="POST" action={`/todos/${link.id}/toggle`}>
+            <li class="flex items-center justify-between gap-4 p-4 bg-blue-50 rounded-lg mt-2">
+              <div class="flex gap-4 items-center">
                 <a
-                  href={link.destination}
+                  href={`https://tspls.dev/${link.shortId}`}
+                  class="text-blue-500"
                   target="_blank"
-                  class="text-blue-500 underline"
                 >
-                  {link.shortId} - {link.description}{" "}
-                  <svg
-                    class="w-4 h-4 inline-block"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                  {link.shortId} ↗️
+                </a>
+                <p class="text-gray-600">{link.description}</p>
+              </div>
+
+              <div>
+                {/* Button Copy with copy icon right of the text */}
+                <button
+                  class="p-2 bg-blue-500 text-white rounded flex items-center gap-1"
+                  onclick={`navigator.clipboard.writeText('https://tspls.dev/${link.shortId}')`}
+                >
+                  Copy{" "}
+                  <svg class="w-4 h-4" viewBox="0 0 24 24">
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
+                      fill="currentColor"
+                      d="M20 4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-1 12H9v-2h10v2zm0-3H9v-2h10v2zm-5-3H9V8h5v2z"
                     ></path>
                   </svg>
-                </a>
-              </form>
+                </button>
+              </div>
             </li>
           ))}
         </ul>
@@ -86,9 +89,7 @@ export default createRoute(async (c) => {
         </p>
         <p class="text-gray-600 mt-2">
           Current value:{" "}
-          <code class="bg-gray-100 p-1 rounded">
-            {shadowUserId}
-          </code>
+          <code class="bg-gray-100 p-1 rounded">{shadowUserId}</code>
         </p>
       </div>
     </>
