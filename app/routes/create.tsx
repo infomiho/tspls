@@ -5,10 +5,15 @@ import { z } from "zod";
 
 import { getCookie, setCookie } from "hono/cookie";
 
-export default createRoute(async (c) => {
-  const shadowUserId = getCookie(c, "shadowUserId") ?? generateRandomString(32);
+const shadowUserIdCookieName = "shadowUserId";
 
-  setCookie(c, "shadowUserId", shadowUserId);
+export default createRoute(async (c) => {
+  const shadowUserId =
+    getCookie(c, shadowUserIdCookieName) ?? generateRandomString(32);
+
+  setCookie(c, shadowUserIdCookieName, shadowUserId, {
+    maxAge: 60 * 60 * 24 * 365, // 1 year
+  });
 
   const links = await c.get("prisma").link.findMany({
     where: {
@@ -104,7 +109,7 @@ const CreateLinkSchema = z.object({
 export const POST = createRoute(
   zValidator("form", CreateLinkSchema),
   async (c) => {
-    const shadowUserId = getCookie(c, "shadowUserId");
+    const shadowUserId = getCookie(c, shadowUserIdCookieName);
 
     if (!shadowUserId) {
       // TODO: handle error better
@@ -112,6 +117,15 @@ export const POST = createRoute(
     }
 
     const data = c.req.valid("form");
+
+    const url = new URL(data.destination);
+
+    if (
+      url.hostname !== "typescriptlang.org" ||
+      !url.pathname.startsWith("/play")
+    ) {
+      return c.redirect("/create");
+    }
 
     await c.get("prisma").link.create({
       data: {
